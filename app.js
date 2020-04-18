@@ -1,5 +1,5 @@
 // Тоглогчийн ээлжийг хадгалах хувьсагч, 1-р тоглогчийн 0, 2-р тоглогчийг 1 гэж тэмдэглэе
-var activePlayer = 1;
+var activePlayer = 0;
 //Тоглогчдын цуглуулсан оноог хадгалах оноог хадгалах хувьсагч
 var scores = [0, 0];
 //Тоглогчийн ээлжиндээ цуглуулж байгаа оноог хадгалах оноо
@@ -17,8 +17,28 @@ document.getElementById("current-1").innerHTML = "0";
 var dice = document.querySelector(".dice");
 dice.style.display = "none";
 
+//Шоог шидэх эвент листенер
 document.querySelector(".btn-roll").addEventListener("click", function () {
   var diceNumber = Math.ceil(Math.random() * 6);
   dice.style.display = "block";
   dice.src = "dice-" + diceNumber + ".png";
+
+  //Буусан тоо нь 1-ээс ялгаатай бол Тоглогчийн ээлжийн оноог өөрчилнө.
+  if (diceNumber !== 1) {
+    roundScore += diceNumber;
+    document.getElementById("current-" + activePlayer).textContent = roundScore;
+  } else {
+    document.getElementById("current-" + activePlayer).textContent = 0;
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.toggle("active");
+    (" active");
+    activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+    roundScore = 0;
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.toggle("active");
+    (" active");
+    dice.style.display = "none";
+  }
 });
