@@ -22,23 +22,38 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
   var diceNumber = Math.ceil(Math.random() * 6);
   dice.style.display = "block";
   dice.src = "dice-" + diceNumber + ".png";
-
   //Буусан тоо нь 1-ээс ялгаатай бол Тоглогчийн ээлжийн оноог өөрчилнө.
   if (diceNumber !== 1) {
     roundScore += diceNumber;
     document.getElementById("current-" + activePlayer).textContent = roundScore;
   } else {
-    document.getElementById("current-" + activePlayer).textContent = 0;
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.toggle("active");
-    (" active");
-    activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
-    roundScore = 0;
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.toggle("active");
-    (" active");
-    dice.style.display = "none";
+    changePlayer();
   }
 });
+//Hold tochnii eventListener
+document.querySelector(".btn-hold").addEventListener("click", function () {
+  scores[activePlayer] += roundScore;
+  document.getElementById("score-" + activePlayer).textContent = scores[activePlayer];
+  if(scores[activePlayer] >= 100){
+      document.getElementById("name-" + activePlayer).textContent = "WINNER!!";
+      document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
+  }
+  else{
+      changePlayer();
+  }
+  
+  
+});
+
+function changePlayer() {
+  roundScore = 0;
+  document.getElementById("current-" + activePlayer).textContent = 0;
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.toggle("active");
+  activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.toggle("active");
+  dice.style.display = "none";
+}
